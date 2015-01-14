@@ -1,0 +1,31 @@
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ title }}</title>
+	<link href="/static/css/reset.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/grid.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/index.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/your_quests.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,300,700,400,600" rel="stylesheet" type="text/css" />
+    <script src="/static/js/jquery.js"></script>
+	<script>
+        $('#login_form').submit(function(event) {
+            event.preventDefault();
+            $.ajax('/login',
+            {
+                data: $('#login_form').serialize(),
+                type: 'POST'
+            }).done(
+                function(data) {
+                console.log(data);
+                    if (data.status == 'invalid_login') {
+                        $('#invalid_login').html(data.status);
+                        $('#login_password').val('');
+                    } else {
+                        window.location.replace('/')
+                    }
+                }
+            );
+        });
+    </script>

@@ -1,0 +1,53 @@
+<html>
+<head>
+	{% include templates/common_header.html %}
+</head>
+<body>
+    <header>
+    	<div style="max-width: 1024px; margin: 0px auto;"> <!-- Fis this later -->
+            <a href="/"><h1>TERRA<i class="fa fa-globe"></i>QUEST</h1></a>
+            <nav>
+            	{% if user is None %}
+                <a href="/">Home<i class="fa fa-chevron-down"></i></a>
+                <a href="/user/new">Register<i class="fa fa-chevron-down"></i></a>
+                {% end if %}
+                {% if user is not None %}
+                	<a href="/">Home<i class="fa fa-chevron-down"></i></a>
+                    <a href="javascript:void(0)" id="toggle_quests">View Quests<i class="fa fa-chevron-down"></i></a>
+
+                    <script type="text/javascript">
+                        window.addEventListener("load", function(event){
+                            var link = document.getElementById("toggle_quests")
+                            link.addEventListener("click", function(){
+                                var select_stuff = document.querySelector(".your_quests");
+                                select_stuff.classList.toggle("active")
+                            });
+                        });
+                    </script>
+                    <a href="/quest/create">Create Quests<i class="fa fa-chevron-down"></i></a>
+                    <!-- <a href="/user/{{ user.rowID }}">Profile<i class="fa fa-chevron-down"></i></a>-->
+                    <a href="/logout">Logout<i class="fa fa-chevron-down"></i></a>|
+                    <a href="/user/{{ user.rowID }}">{{ user.fname + " " + user.lname}}<div class="profile_pic" style="background-image:url(http://s3.amazonaws.com/37assets/svn/765-default-avatar.png)"></div></a>
+                {% end if %}
+            </nav>
+        </div>
+    </header>
+
+    {% if user is not None %}
+    <div class="your_quests">
+		<article><h4>My Quests</h4></article>
+		{% for quest in user.findQuests() %}
+		<article>   
+			<img src="" height="200" width="160">
+			<a href="/quest/{{ quest.rowID }}"><h5>{{ quest.name }}</h5></a>
+			<p>{{ quest.desc }}</p>
+			<p>Hosted by {{ ', '.join(admin.username for admin in quest.admins()) }}</p>
+		</article>
+		{% end for %}
+		{% if not user.findQuests() %}
+		<article>
+			<p>You don't have any quests yet, perhaps you should <a href="/quest/create">create one</a>.</p>
+		</article>
+		{% end if %}
+    </div>
+    {% end if %}

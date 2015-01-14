@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS User (ref INTEGER PRIMARY KEY, username TEXT, password TEXT, fname TEXT, lname TEXT, email TEXT, exp INTEGER);
+CREATE TABLE IF NOT EXISTS Participant (ref INTEGER PRIMARY KEY, quest_ref INTEGER, user_ref INTEGER, is_admin INTEGER);
+CREATE TABLE IF NOT EXISTS Quest (ref INTEGER PRIMARY KEY, name TEXT, private INTEGER, creator_ref INTEGER, long REAL, lat REAL, desc TEXT, time TEXT, status TEXT);
+CREATE TABLE IF NOT EXISTS Tool (ref INTEGER PRIMARY KEY, name TEXT, quest_ref INTEGER, quantity INTEGER);
+CREATE TABLE IF NOT EXISTS Invite (ref INTEGER PRIMARY KEY, invitee_ref INTEGER, inviter_ref INTEGER, quest_ref INTEGER, date INTEGER);
+CREATE TABLE IF NOT EXISTS Message (ref INTEGER PRIMARY KEY, user_ref INTEGER, quest_ref INTEGER, text TEXT, time REAL, category TEXT);
+CREATE TABLE IF NOT EXISTS Tool_Log (ref INTEGER PRIMARY KEY, user_ref INTEGER, tool_ref INTEGER, quest_ref INTEGER);

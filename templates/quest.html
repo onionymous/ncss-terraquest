@@ -1,0 +1,131 @@
+{% include templates/headheader.html %}
+<main>
+<div class="row"> 	
+	<div class="col">
+	{% if quest is None %}
+		<h2> Quest not found </h2>
+	{% else %}
+		<h2>{{ quest.name }}</h2>
+	{% end if %}
+	</div>
+</div>
+<script type="text/javascript">
+       function initialize() {
+           $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + {{ quest.lat }} + ',' + {{ quest.long }} + '&key=AIzaSyCWpu8WzsEO4AlJs_PflE_-v_ruwny9_uY', function(data) {
+                $('#location').text(data.results[0].formatted_address);
+            });
+        }
+        $(document).ready(initialize());
+</script>
+<div class="row">
+	<div class="col">
+		{% if quest %}
+		<ul>
+			<li>Description: {{ quest.desc }}</li>
+			<li>Location: <span id = 'location'></span></li>
+			<li>Admins: 
+                <ul>
+                    {% for admin in quest.admins() %}
+                        <li><a href="/user/{{ admin.rowID }}">{{ admin.fname }} {{ admin.lname }}</a></li>
+                    {% end for %}
+                </ul>
+            </li>
+			<li>Fellow questers:
+				<ul>
+					{% for quester in quest.findUsers() %}
+					<li><a href="/user/{{ quester.rowID }}">{{ quester.fname }} {{ quester.lname }}</a></li>
+					{% end for %}
+				</ul>
+			</li>
+		</ul>
+        {% if not questing %}
+		<form method="POST">
+            <button>
+                Accept Quest
+            </button>
+        </form>
+        {% end if %}
+        {% end if %}
+    </div>
+	<div class="col">
+		 <div id="map-canvas" style="height: 400px; max-width: 100%;  border-radius: 5px"></div>
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		<form>
+			<fieldset>
+				<legend>
+					<h3>Check List</h3>
+				</legend>
+                <ul>
+                    {% for item in items %}
+                    <li>
+                        <input type="checkbox" name="items[]" value="{{ item.rowID }}" id="item{{ item.rowID }}">
+                        <label style="display: inline-block">{{ item.name }} (x{{ item.quantity }})</label>
+                    </li>
+                    {% end for %}
+                </ul>
+			</fieldset>
+		</form>
+	</div>
+	<div class="col">
+		<h3>Chat</h3>
+            <div id="chatBox"> 
+            {% include templates/chat_box.html %}
+			</div>
+	</div>
+</div>
+</main>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWpu8WzsEO4AlJs_PflE_-v_ruwny9_uY"></script>
+<script src = "/static/js/map.js" ></script>
+<script type="text/javascript">
+	
+    function refresh() {
+        var x = new XMLHttpRequest();
+        x.open('GET', window.location + '/messagebox');
+        x.onload = function() {
+            document.getElementById('chatBox').innerHTML = x.response;
+        };
+        x.send()
+    }
+	function initialize() {
+		var map = new Map(11, {{quest.lat}}, {{quest.long}});
+		var quest = new Pin({{quest.rowID}}, {{quest.lat}}, {{quest.long}}, "{{quest.name}}", map);
+
+		$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + e.latLng.k + ',' + e.latLng.D + '&key=AIzaSyCWpu8WzsEO4AlJs_PflE_-v_ruwny9_uY', function(data)
+                {
+					$('#location_name').val(data.results[0].formatted_address);
+            	});
+    }
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+ 
+	//messaging...
+	$('#chat').load('/quest/{{ quest_id }}/messages');
+
+
+	var ws = new WebSocket('ws://{{ server_host }}:{{ server_port }}/quest/{{quest.rowID}}/messages');
+    ws.onopen = function(){
+        console.log('open');
+    }
+    
+    ws.onclose = function() {
+        console.log('closed');
+    }
+	ws.onmessage = function(evt) {
+		console.log(evt.data);
+        refresh()
+	};
+    $('#chatForm').submit(function(evt)    {
+        evt.preventDefault();
+        ws.send($('#chatMsg').val());
+    });
+
+</script>
+{% include templates/footer.html %}
+
+
+
+
+

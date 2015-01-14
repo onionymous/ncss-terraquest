@@ -1,0 +1,15 @@
+<section>
+	
+	{% for msg in messages %}
+	<article>
+		<span class="chatUser">{{msg.username}}: </span>
+		<p class="chatMsg">{{msg.text}}</p>
+	</article>
+	{% end for %}
+	
+	<form method="POST" action="/quest/{{quest.rowID}}/messagebox" id="chatForm">
+		<input type="text" name="chatMsg" id="chatMsg">
+		<button type="submit">Enter</button>
+	</form>	
+
+</section>

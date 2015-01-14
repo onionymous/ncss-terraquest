@@ -1,0 +1,66 @@
+{% include templates/headheader.html %}
+    <main>
+	    	<form id="create_profile_form" action="/user" method="POST">
+                <fieldset>
+                    <legend>
+                        register
+                    </legend>
+                    <p>
+                        <label for="username">Username</label>
+                        <input type="text" placeholder="Username" name="username" id="username" required>
+                    </p>
+                    <p> 
+                        <label for="password_1">Password</label>
+                        <input type="password" placeholder="Password" name="password_1" id="password_1" required>
+                    </p>
+                    <p> 
+                        <label for="password_2">Re-type Password</label>
+                        <input type="password" placeholder="Password Again" name="password_2" id="password_2" required>
+                    </p>
+                    <p>
+                        <label for="f_name">First Name</label>
+                        <input type="text" placeholder="First Name" name="f_name" id="f_name" required>
+                    </p>
+                    <p>    
+                        <label for="l_name">Last Name</label>
+                        <input type="text" placeholder="Last Name" name="l_name" id="l_name" required>
+                    </p>
+                    <p>
+                        <label for="email">Email</label>
+                        <input type="email" placeholder="Email" name="email" id="email" required>
+                    </p>
+                    <p>
+                        <input type="submit" value="Create">
+                    </p>
+                    <article id="error"></article>
+                </fieldset>
+            </form>
+    </main>
+    <script src="/static/js/jquery.js"></script>
+	<script>
+		$('#create_profile_form').submit(function(event) {
+		event.preventDefault();
+		$.ajax('/user',
+		{
+			data: $('#create_profile_form').serialize(),
+			type: 'POST'
+		}).done(
+			function(data) {
+				console.log(data);
+				$('#invalid_username').html('');
+				
+				if (data.status == 'invalid_username') {
+					$('#error').html("Your username has already been taken.");
+					<!-- $('#invalid_username').val(''); --> set to red colour
+				} else if (data.status == 'invalid_password') {
+					$('#error').html("Your passwords did not match");
+					$('#password_1').val('');
+					$('#password_2').val('');
+				} else if (data.status == 'valid') {
+					window.location.replace('/home')
+				}
+			}
+		);
+		});
+	</script>
+{% include templates/footer.html %}

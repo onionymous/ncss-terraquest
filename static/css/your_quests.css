@@ -1,0 +1,41 @@
+.your_quests {
+	background-color: rgba(0, 0, 0, 0.7);
+	width: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	z-index: 99;
+	transition: width 1s;
+	overflow-x: hidden;
+
+}
+.your_quests.active {
+	display: block;
+	width: 50%;
+
+}
+
+.your_quests article {
+	background-color: white;
+	margin: 70px 30px 70px 30px;
+	clear: left;
+	width: 880px;
+}
+
+.your_quests article::after {
+	display: table;
+	clear: left;
+	content: " ";
+}
+
+.your_quests img {
+	margin: 20px 30px 20 30px;
+	float: left;
+
+}
+
+.your_quests article h5 {
+	margin-top: 25px;
+}
+

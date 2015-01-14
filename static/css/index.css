@@ -1,0 +1,61 @@
+header {
+	
+}
+
+/***header form{
+	display: none;
+}**/
+
+#login_form {
+	margin-left: 800px;
+}
+
+#sign_inUp{
+	text-align: center;
+	margin-left: 800px;
+}
+
+
+
+
+#promo_map {
+	width: 100%;
+	height: 90%;
+}
+
+.info_imgs {
+	width: 100%;
+	height: 30%;
+}
+
+#info_section {
+	margin: 100px 50px 150px 50px;
+}
+
+#info_section h2 {
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.info_box {
+    margin: 0 15px 0 15px; 
+    background-color: #efefef;
+}
+
+
+#social {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.footer_sections {
+	border-right: 2px dotted #888;
+}
+
+footer section {
+	text-align: center;
+}
+
+#copyright {
+	text-align: center;
+}

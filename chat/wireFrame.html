@@ -1,0 +1,60 @@
+<!DOCTYPE>
+
+<html>
+
+<head>
+	<title>Terra Quest</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/grid.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<!--<link rel="stylesheet" type="text/css" href="css/style.css">-->
+	<script src="static/js/jquery.js" ></script>
+	<style type="text/css">
+		#container{
+			width: 400px;
+			height: 400px;
+			border-style: solid;
+		}
+		#chatBox{
+			height: 30px;
+			width: 400px;
+			position: static;
+			top: 380px;
+		}
+		#text{
+			width: 400px;
+			resize: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div id= "container">
+		<textarea rows="23" cols="50" id="text" readonly="true"></textarea>
+		<input type="text" name="chat" id="chatBox" placeholder="Type text:">
+		
+	</div>
+	<script type="text/javascript">
+		var inp = document.getElementById('chatBox');
+		inp.addEventListener('keydown', function(event) {
+			if (event.keyCode == 13) {
+				console.log('Enter pressed!');
+				text.value += 'user: ' + inp.value + '\n';
+				inp.value = '';
+				text.scrollTop = text.scrollHeight;
+				
+			} else {
+				console.log('some other key', event.keyCode);
+			}
+		});
+		
+		function loadConversation() {
+			$.ajax('/sprayandwipe').done(function(data) {
+				alert(data);
+			});
+		};
+		loadConversation();
+	</script>
+</body>
+
+</html>

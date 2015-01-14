@@ -1,0 +1,97 @@
+{% include templates/headheader.html %}
+	<main>	
+        <form action="/quest/create" method="POST">
+		    <fieldset>
+            <legend>Create Events</legend>
+            <p>
+				<label>Quest Name</label>
+				<input type="text" placeholder="Enter Quest Name" name="quest_name" required>
+			</p>
+            <p>
+            	<label>Where</label>
+				<input id="location_name" type="text" placeholder="Location" name="location_name" required readonly>
+				<input id="location" type="hidden" name="location" required>
+                <div id="map-canvas" style="height: 400px; border-radius: 5px"></div>
+			</p>
+            <p>				
+                <label>Description</label>
+				<textarea placeholder="Enter Description" name="description" required></textarea>
+			</p>
+            <p>				
+                <label>Date/Time</label>
+				<input type="datetime-local" placeholder="Date/Time" name="date_time" required>
+			</p>
+            <p>				
+                <label>Hosts</label>
+				<input type="text" placeholder="Enter other Hosts" name="admins" required>
+            <p id="list_items">		
+            			
+                <label>Check List</label>				
+				<input type="text" placeholder="Enter Items" name="items">
+			</p>
+            <p>					
+				<input type="submit" value="save">
+            </p>
+			</fieldset>
+		</form>
+    </main>
+	<!--
+	<div class="col">
+		<form>
+			<fieldset>
+				<legend>
+					<h3>Check List</h3>
+				</legend>
+				<ul>
+					<li>
+						<input type="checkbox" id="item1">
+						<label for="item1">an item?</label>
+					</li>
+				</ul>
+			</fieldset>
+		</form>
+	</div>
+	<div class="col">
+		<h3>Posts</h3>
+		<!--admin posting only, read only for adventurers
+	</div>
+	<div class="col">
+		<h3>Chat</h3>
+		<!-- Database stuff need to talk more about this
+	</div>--> 
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWpu8WzsEO4AlJs_PflE_-v_ruwny9_uY"></script>
+    <script src = "/static/js/map.js" ></script>
+    <script type="text/javascript">
+        function initialize() {
+            var map = new Map(10, -33.867487, 151.206990, false);
+            var marker = new google.maps.Marker();
+            google.maps.event.addListener(map.map, 'click', function(e) {
+                marker.setMap(null);
+                placeMarker(marker, e.latLng, map.map);
+                console.log(e.latLng);
+                $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + e.latLng.k + ',' + e.latLng.D + '&key=AIzaSyCWpu8WzsEO4AlJs_PflE_-v_ruwny9_uY', function(data)
+                {
+					$('#location_name').val(data.results[0].formatted_address);
+            	});
+                $('#location').val(e.latLng.k + ' ' + e.latLng.D);
+            })
+        }
+
+
+        function placeMarker(marker, position, map) {
+            marker.setPosition(position)
+            marker.setMap(map)
+            map.panTo(position);
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    
+    var xTriggered = 0;
+    $( "#list_items" ).keypress(function( event ) {
+      if ( event.which == 13 ) {
+         event.preventDefault();
+         $("#list_items").append('<input type="text" placeholder="Enter Item:" name="items">');
+		 $('#list_items input').last().focus();
+      }
+    })
+    </script>  
+{% include templates/footer.html %}

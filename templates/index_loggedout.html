@@ -1,0 +1,85 @@
+{% include templates/headheader.html %}
+	<form id="login_form" action="/login" method="POST">
+        <fieldset>
+            <legend>
+                Account Login
+            </legend>
+            <p>
+                <label>Username: </label>
+                <input type="text" name="username" placeholder="Enter Username" id="login_username">
+            </p>
+            <p>
+                <label>Password: </label>
+                <input type="password" name="password" placeholder="Enter Password" id="login_password">
+            </p>
+            <p>
+                <input type="submit" value="Login">
+            </p>
+            <article id="invalid_login"></article>
+        </fieldset>
+    </form>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWpu8WzsEO4AlJs_PflE_-v_ruwny9_uY"></script>
+    <script src = '/static/js/map.js'></script>
+    <script type="text/javascript">
+    function initialize() {
+        var map = new Map(8, -33.867487, 151.206990);
+        {% for quest in quests %}
+        new Pin({{quest.rowID}}, {{quest.lat}}, {{quest.long}}, "{{quest.name}}", map);
+        {% end for %}
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+    </script>    
+    <div id="map-canvas" class="home_map"></div>
+	<!--
+    <div class="row" id="info_section">
+        <section class="col info_box">
+            <img src="http://www.flawil.ch/pictures/information.gif" alt="Information" class="info_imgs">
+            <h2>INFORMATION</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras luctus facilisis lacus, a porttitor sem cursus et. Donec fringilla laoreet ligula non rutrum. Curabitur et quam rutrum enim condimentum semper pulvinar sit amet neque. Fusce elementum consectetur enim sed auctor. Nulla semper sed tellus vitae ultrices. Sed eleifend neque mauris, scelerisque scelerisque odio tincidunt et. Vivamus eu pellentesque ipsum. Nullam venenatis lorem felis, nec convallis lectus aliquam non. Phasellus et pulvinar nulla.</p>
+        </section>
+
+        <section class="col info_box">
+            <img src="http://www.flawil.ch/pictures/information.gif" alt="Information" class="info_imgs">
+            <h2>INFORMATION</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras luctus facilisis lacus, a porttitor sem cursus et. Donec fringilla laoreet ligula non rutrum. Curabitur et quam rutrum enim condimentum semper pulvinar sit amet neque. Fusce elementum consectetur enim sed auctor. Nulla semper sed tellus vitae ultrices. Sed eleifend neque mauris, scelerisque scelerisque odio tincidunt et. Vivamus eu pellentesque ipsum. Nullam venenatis lorem felis, nec convallis lectus aliquam non. Phasellus et pulvinar nulla.</p>
+        </section>
+
+        <section class="col info_box">
+            <img src="http://www.flawil.ch/pictures/information.gif" alt="Information" class="info_imgs">
+            <h2>INFORMATION</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras luctus facilisis lacus, a porttitor sem cursus et. Donec fringilla laoreet ligula non rutrum. Curabitur et quam rutrum enim condimentum semper pulvinar sit amet neque. Fusce elementum consectetur enim sed auctor. Nulla semper sed tellus vitae ultrices. Sed eleifend neque mauris, scelerisque scelerisque odio tincidunt et. Vivamus eu pellentesque ipsum. Nullam venenatis lorem felis, nec convallis lectus aliquam non. Phasellus et pulvinar nulla.</p>
+        </section>
+	</div>
+    -->
+    <main>
+        <h4>ABOUT</h4>
+        <p>
+        "Im bored! Lets go out... but where?" How many times has this happened to you? Too many? With TerraQuest you can quickly and easily be the <b>party leader</b> for people to partake. You can view existing quests and become a part of them. 
+        </p>
+        <p>
+        <!-- Information Here! -->
+        </p>
+	</main>
+	<script type="text/javascript" src="/static/js/jquery.js"></script>
+	<script type="text/javascript">
+		$('#login_form').submit(function(event) {
+		event.preventDefault();
+		$.ajax('/login',
+		{
+			data: $('#login_form').serialize(),
+			type: 'POST'
+		}).done(
+			function(data) {
+				console.log(data);
+					if (data.status == 'invalid_login') {
+						$('#login_password').val('');
+						$('#invalid_login').html('Invalid Login');
+					} else {
+						window.location.replace('/home');
+					}
+			}
+		);
+		});
+	</script>
+{% include templates/footer.html %}

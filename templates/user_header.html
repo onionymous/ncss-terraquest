@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+	{% include templates/common_header.html %}
+</head>
+<body>
+    <header>
+    	<div>
+            <div class="row">
+                <div class="col">
+                    <img src="https://groklearning-cdn.com/static/images/marketing/about/james-grok-head@2x.png" alt="Profile Picture" style="height: 100px;">
+                    {{ user.fname + " " + user.lname }}
+                </div>
+            
+                <div class="col">
+                    <a href="/"><h1>TERRA<i class="fa fa-globe"></i>QUEST</h1></a>
+                </div>
+                
+                <nav class="col">
+                	{% if user is None %}
+                    <a href="/">Home<i class="fa fa-chevron-down"></i></a>
+                    <a href="/user/new">Register<i class="fa fa-chevron-down"></i></a>
+                    {% end if %}
+                    {% if user is not None %}
+                    	<a href="/">Home<i class="fa fa-chevron-down"></i></a>
+                        <a href="javascript:void(0)" id="toggle_quests">View Quests<i class="fa fa-chevron-down"></i></a>
+
+                        
+  
+
+                        </script>
+                        <a href="/quest/create">Create Quests<i class="fa fa-chevron-down"></i></a>
+                        <a href="/user/{{ user.rowID }}">Profile<i class="fa fa-chevron-down"></i></a>
+                        <a href="/logout">Logout<i class="fa fa-chevron-down"></i></a>
+                        
+                    {% end if %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="your_quests">
+        <h2>Your Quests</h2>
+        <article>   
+            <img src="" height="200" width="160">
+            <h5>Name of Quest</h5>
+            <p>Where?</p>
+            <p>Host Name</p>
+            <p>Description...</p>
+        </article>
+
+        <article>   
+            <img src="" height="200" width="160">
+            <h5>Name of Quest</h5>
+            <p>Where?</p>
+            <p>Host Name</p>
+            <p>Description...</p>
+        </article>
+    </div>

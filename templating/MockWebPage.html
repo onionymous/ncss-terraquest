@@ -1,0 +1,18 @@
+
+	{% include header.html %}
+	<h1>{{ name }}</h1>
+	<p>Welcome, {{ name }} to the website for the things.</p>
+	<h3>{{ name }}'s friends</h3>
+
+	<ul>
+	{% comment %}HEYO, This doesn't appear in the rendered html{% end comment %} 
+	{% for friend in friends %}
+		<li>
+			{{ friend.name.title() }} {{ friend.age }}
+			{% if friend.gender == 'M' %}Male{% else %}Female{% end if %}
+			{% if friend.eat == 'vegan' %}Vegan{% elif friend.eat == 'vego' %}Vegetarian{% else %}Omnivore{% end if %}
+		</li>
+	{% end for %}
+	</ul>
+	
+	{% include footer.html %}

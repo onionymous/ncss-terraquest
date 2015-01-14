@@ -1,0 +1,23 @@
+{% include header.html %}
+<section id='profile'>
+	<h1>{{ name }}</h1>
+	<ul id='friends-list'>
+	{% for f in friends %}
+		<li class='friend'> 
+		{% if f == 6 %}
+			66666666
+		{% elif f == 4 %}
+			444!
+		{% else %}
+			{% if f % 2 == 0 %}
+			even number
+			{% comment %}
+			this should have no effect
+			{% end comment %}
+			{% end if %}
+		{% end if %}
+		{{ f }} 
+	{% end for %}
+	</ul>
+</section>
+{% include footer.html %}
