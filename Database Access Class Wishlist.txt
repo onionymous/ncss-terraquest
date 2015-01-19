@@ -1,3 +1,0 @@
-Write in any functions you want below:
-
-check_password(username, password) return boolean
